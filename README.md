@@ -1,8 +1,7 @@
 # Bancor
+[![Gem](https://img.shields.io/gem/v/bancor.svg?style=flat-square)](https://rubygems.org/gems/bancor)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bancor`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Implement the logic of Bancor protocol.
 
 ## Installation
 
@@ -22,7 +21,31 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+irb(main):001:0> bp = Bancor::Protocol.new(eth: 300000, rate: 1, crr: 0.2)
+=> #<Bancor::Protocol:0x00007fabd8a37510 @total_supply=300000, @reserved_token=60000.0, @price=1.0, @crr=0.2>
+
+irb(main):002:0> bp.buy 300
+=> 1.003998003989035
+
+irb(main):003:0> bp.buy 700
+=> 1.0133112579155532
+
+irb(main):004:0> bp.sell 1302
+=> 0.9958916677019946
+
+irb(main):005:0> bp.buy 100
+=> 0.9972261505575943
+
+irb(main):006:0> bp.total_supply
+=> 299791.7445404769
+
+irb(main):007:0> bp.reserved_token
+=> 59792.033475409095
+
+irb(main):008:0> bp.price
+=> 0.9972261505575943
+```
 
 ## Development
 
