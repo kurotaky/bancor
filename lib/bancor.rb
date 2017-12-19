@@ -11,32 +11,36 @@ module Bancor
       @crr = crr
     end
 
-    def buy(quantity)
-      token = @total_supply * (((1 + (quantity / @reserved_token)) ** @crr) - 1)
-      @reserved_token = @reserved_token + quantity
-      @total_supply = @total_supply + token
+    def issue_by_reserve_token(amount)
+      smart_token_amount = @total_supply * (((1 + (amount / @reserved_token)) ** @crr) - 1)
+      @reserved_token = @reserved_token + amount
+      @total_supply = @total_supply + smart_token_amount
       @price = @reserved_token / (@total_supply * @crr)
+      smart_token_amount
     end
 
-    def sell(quantity)
-      token = @reserved_token * (1 - ((1 - (quantity / @total_supply)) ** (1/@crr)))
-      @reserved_token = @reserved_token - token
-      @total_supply = @total_supply - quantity
+    def destroy_by_reserve_token(amount)
+      smart_token_amount = @reserved_token * (1 - ((1 - (amount / @total_supply)) ** (1/@crr)))
+      @reserved_token = @reserved_token - smart_token_amount
+      @total_supply = @total_supply - amount
       @price = @reserved_token / (@total_supply * @crr)
+      smart_token_amount
     end
 
-    def pricing_to_buy(quantity)
-      @transaction_price = @reserved_token * ((((quantity / @total_supply) + 1) ** (1/@crr)) - 1)
-      @total_supply = @total_supply + quantity
-      @reserved_token = @reserved_token + @transaction_price
+    def issue_by_smart_token(amount)
+      transaction_price = @reserved_token * ((((amount / @total_supply) + 1) ** (1/@crr)) - 1)
+      @total_supply = @total_supply + amount
+      @reserved_token = @reserved_token + transaction_price
       @price = @reserved_token / (@total_supply * @crr)
+      transaction_price
     end
 
-    def pricing_to_sell(quantity)
-      @transaction_price = @reserved_token * (1 - ((1 - (quantity / @total_supply)) ** (1/@crr)))
-      @total_supply = @total_supply - quantity
-      @reserved_token = @reserved_token - @transaction_price
+    def destroy_by_smart_token(amount)
+      transaction_price = @reserved_token * (1 - ((1 - (amount / @total_supply)) ** (1/@crr)))
+      @total_supply = @total_supply - amount
+      @reserved_token = @reserved_token - transaction_price
       @price = @reserved_token / (@total_supply * @crr)
+      transaction_price
     end
   end
 end
