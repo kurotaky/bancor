@@ -2,6 +2,7 @@
 [![Gem](https://img.shields.io/gem/v/bancor.svg?style=flat-square)](https://rubygems.org/gems/bancor)
 
 Implement the logic of Bancor protocol.
+[Bancor Protocol Decentralized networks for smart contract based tokens to enable continuous convertibility between them.](https://www.bancor.network/static/bancor_protocol_whitepaper_en.pdf)
 
 ## Installation
 
@@ -20,31 +21,64 @@ Or install it yourself as:
     $ gem install bancor
 
 ## Usage
+### issue/destroy by reserve token
+```ruby
+irb(main):008:0> bp = Bancor::Protocol.new(eth: 300000, rate: 1, crr: 0.2)
+=> #<Bancor::Protocol:0x00007f93039bd410 @total_supply=300000, @reserved_token=60000.0, @price=1.0, @crr=0.2>
 
+irb(main):009:0> bp.issue_by_reserve_token 300
+=> 299.40179372385245
+
+irb(main):010:0> bp
+=> #<Bancor::Protocol:0x00007f93039bd410 @total_supply=300299.40179372387, @reserved_token=60300.0, @price=1.003998003989035, @crr=0.2>
+
+irb(main):011:0> bp.issue_by_reserve_token 700
+=> 693.9974382206417
+
+irb(main):012:0> bp
+=> #<Bancor::Protocol:0x00007f93039bd410 @total_supply=300993.3992319445, @reserved_token=61000.0, @price=1.0133112579155532, @crr=0.2>
+
+irb(main):013:0> bp.destroy_by_reserve_token 1302
+=> 1307.966524590907
+
+irb(main):014:0> bp
+=> #<Bancor::Protocol:0x00007f93039bd410 @total_supply=299691.3992319445, @reserved_token=59692.033475409095, @price=0.9958916677019946, @crr=0.2>
+
+irb(main):015:0> bp.issue_by_reserve_token 100
+=> 100.34530853232869
+
+irb(main):016:0> bp
+=> #<Bancor::Protocol:0x00007f93039bd410 @total_supply=299791.7445404769, @reserved_token=59792.033475409095, @price=0.9972261505575943, @crr=0.2>
 ```
-irb(main):001:0> bp = Bancor::Protocol.new(eth: 300000, rate: 1, crr: 0.2)
-=> #<Bancor::Protocol:0x00007fabd8a37510 @total_supply=300000, @reserved_token=60000.0, @price=1.0, @crr=0.2>
 
-irb(main):002:0> bp.buy 300
-=> 1.003998003989035
+### issue/destroy by smart token
+```ruby
+irb(main):015:0> bp = Bancor::Protocol.new(eth: 300000, rate: 1, crr: 0.2)
+=> #<Bancor::Protocol:0x00007fb14b0169f0 @total_supply=300000, @reserved_token=60000.0, @price=1.0, @crr=0.2>
 
-irb(main):003:0> bp.buy 700
-=> 1.0133112579155532
+irb(main):016:0> bp.issue_by_smart_token 50
+=> 0.0
 
-irb(main):004:0> bp.sell 1302
-=> 0.9958916677019946
+irb(main):017:0> bp
+=> #<Bancor::Protocol:0x00007fb14b0169f0 @total_supply=300050, @reserved_token=60000.0, @price=0.9998333611064822, @crr=0.2>
 
-irb(main):005:0> bp.buy 100
-=> 0.9972261505575943
+irb(main):018:0> bp.issue_by_smart_token 100
+=> 0.0
 
-irb(main):006:0> bp.total_supply
-=> 299791.7445404769
+irb(main):019:0> bp
+=> #<Bancor::Protocol:0x00007fb14b0169f0 @total_supply=300150, @reserved_token=60000.0, @price=0.9995002498750625, @crr=0.2>
 
-irb(main):007:0> bp.reserved_token
-=> 59792.033475409095
+irb(main):020:0> bp.destroy_by_smart_token 100
+=> 0.0
 
-irb(main):008:0> bp.price
-=> 0.9972261505575943
+irb(main):021:0> bp
+=> #<Bancor::Protocol:0x00007fb14b0169f0 @total_supply=300050, @reserved_token=60000.0, @price=0.9998333611064822, @crr=0.2>
+
+irb(main):022:0> bp.destroy_by_smart_token 50
+=> 0.0
+
+irb(main):023:0> bp
+=> #<Bancor::Protocol:0x00007fb14b0169f0 @total_supply=300000, @reserved_token=60000.0, @price=1.0, @crr=0.2>
 ```
 
 ## Development
