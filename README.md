@@ -1,5 +1,6 @@
 # Bancor
 [![Gem](https://img.shields.io/gem/v/bancor.svg?style=flat-square)](https://rubygems.org/gems/bancor)
+[![Build Status](https://travis-ci.org/kurotaky/bancor.svg?branch=master)](https://travis-ci.org/kurotaky/bancor)
 
 Implement the logic of Bancor protocol.
 [Bancor Protocol Decentralized networks for smart contract based tokens to enable continuous convertibility between them.](https://www.bancor.network/static/bancor_protocol_whitepaper_en.pdf)
